@@ -11,6 +11,7 @@ import java.util.List;
 
 /**
  * @see tt432.millennium.devonly.recipe.register.RecipeTypes
+ * @see tt432.millennium.devonly.recipe.recipe.CocktailRecipe
  * @author DustW
  **/
 public abstract class BaseRecipe implements Recipe<Container> {

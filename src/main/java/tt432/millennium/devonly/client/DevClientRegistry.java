@@ -10,7 +10,6 @@ import net.minecraftforge.fml.common.Mod;
 import tt432.millennium.Millennium;
 import tt432.millennium.devonly.AllInOneObject;
 import tt432.millennium.devonly.ModelBlockEntity;
-import tt432.millennium.renderer.model.GltfModels;
 import tt432.millennium.renderer.model.gltf.BaseModelBlockEntityRenderer;
 
 /**

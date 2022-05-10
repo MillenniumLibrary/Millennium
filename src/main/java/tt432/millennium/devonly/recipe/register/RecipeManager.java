@@ -3,7 +3,7 @@ package tt432.millennium.devonly.recipe.register;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.Level;
-import net.minecraftforge.eventbus.api.IEventBus;
+import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import tt432.millennium.Millennium;
 import tt432.millennium.devonly.recipe.recipe.CocktailRecipe;
 import tt432.millennium.recipes.base.BaseRecipe;
@@ -25,7 +25,9 @@ public class RecipeManager {
         return level.getRecipeManager().getAllRecipesFor(RecipeTypes.COCKTAIL.get());
     }
 
-    public static void register(IEventBus bus) {
+    public static void register() {
+        var bus = FMLJavaModLoadingContext.get().getModEventBus();
+
         RecipeTypes.register(bus);
         RecipeSerializers.register(bus);
     }

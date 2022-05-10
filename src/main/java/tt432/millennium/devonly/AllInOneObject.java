@@ -17,8 +17,6 @@ import net.minecraft.world.level.material.Material;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.RegistryObject;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
-import tt432.millennium.Millennium;
 
 import java.util.ArrayList;
 import java.util.List;

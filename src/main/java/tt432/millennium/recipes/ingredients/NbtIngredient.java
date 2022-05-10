@@ -2,10 +2,11 @@ package tt432.millennium.recipes.ingredients;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
-import net.minecraft.nbt.*;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.ListTag;
+import net.minecraft.nbt.NumericTag;
+import net.minecraft.nbt.StringTag;
 import net.minecraft.network.chat.TranslatableComponent;
-import net.minecraftforge.common.util.INBTSerializable;
-import net.minecraftforge.registries.tags.ITag;
 import org.apache.logging.log4j.LogManager;
 
 import java.util.List;

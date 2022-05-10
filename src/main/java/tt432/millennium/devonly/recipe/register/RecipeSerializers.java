@@ -5,8 +5,8 @@ import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
-import tt432.millennium.recipes.base.BaseSerializer;
 import tt432.millennium.devonly.recipe.recipe.CocktailRecipe;
+import tt432.millennium.recipes.base.BaseSerializer;
 
 /**
  * @author DustW
