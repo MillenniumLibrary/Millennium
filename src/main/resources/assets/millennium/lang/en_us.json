@@ -1,0 +1,3 @@
+{
+  "error.NbtIngredient.path": "Path error: can't read CompoundTag in %s"
+}

@@ -1,0 +1,4 @@
+@ParametersAreNonnullByDefault
+package tt432.millennium.recipes;
+
+import javax.annotation.ParametersAreNonnullByDefault;

@@ -2,9 +2,7 @@ package tt432.millennium.devonly.client;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.timlee9024.mcgltf.MCglTF;
-import de.javagl.jgltf.model.GltfModel;
 import net.minecraft.client.renderer.MultiBufferSource;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.EntityRenderersEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -12,8 +10,8 @@ import net.minecraftforge.fml.common.Mod;
 import tt432.millennium.Millennium;
 import tt432.millennium.devonly.AllInOneObject;
 import tt432.millennium.devonly.ModelBlockEntity;
-import tt432.millennium.devonly.DevRegistry;
 import tt432.millennium.renderer.model.GltfModels;
+import tt432.millennium.renderer.model.gltf.BaseModelBlockEntityRenderer;
 
 /**
  * @author DustW

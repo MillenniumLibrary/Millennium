@@ -1,4 +1,4 @@
-package tt432.millennium.devonly.client;
+package tt432.millennium.renderer.model.gltf;
 
 import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.systems.RenderSystem;

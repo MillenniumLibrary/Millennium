@@ -1,4 +1,4 @@
-package tt432.millennium.renderer.model;
+package tt432.millennium.renderer.model.gltf;
 
 import com.timlee9024.mcgltf.IGltfModelReceiver;
 import com.timlee9024.mcgltf.RenderedGltfModel;
