@@ -1,4 +1,4 @@
-package tt432.millennium.recipes.object;
+package tt432.millennium.recipes.ingredients;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;

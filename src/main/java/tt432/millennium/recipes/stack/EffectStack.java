@@ -1,4 +1,4 @@
-package tt432.millennium.recipes.object;
+package tt432.millennium.recipes.stack;
 
 import com.google.gson.annotations.Expose;
 import net.minecraft.resources.ResourceLocation;

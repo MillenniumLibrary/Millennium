@@ -9,6 +9,7 @@ import org.jetbrains.annotations.Nullable;
 import tt432.millennium.utils.json.JsonUtils;
 
 /**
+ * @see tt432.millennium.devonly.recipe.register.RecipeSerializers
  * @author DustW
  **/
 public class BaseSerializer<RECIPE extends BaseRecipe>

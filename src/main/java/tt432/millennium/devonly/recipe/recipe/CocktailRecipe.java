@@ -9,7 +9,7 @@ import net.minecraft.world.item.crafting.RecipeType;
 import tt432.millennium.devonly.recipe.register.RecipeSerializers;
 import tt432.millennium.devonly.recipe.register.RecipeTypes;
 import tt432.millennium.recipes.base.BaseRecipe;
-import tt432.millennium.recipes.object.EffectStack;
+import tt432.millennium.recipes.stack.EffectStack;
 
 import java.util.List;
 

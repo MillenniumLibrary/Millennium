@@ -1,4 +1,4 @@
-package tt432.millennium.recipes.object;
+package tt432.millennium.recipes.ingredients;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
@@ -112,6 +112,10 @@ public class NbtIngredient implements Predicate<CompoundTag> {
     List<SingleNbt> nbtList;
     @Expose
     boolean all;
+
+    public NbtIngredient(SingleNbt... nbtList) {
+        this.nbtList = List.of(nbtList);
+    }
 
     @FunctionalInterface
     private interface Tester {

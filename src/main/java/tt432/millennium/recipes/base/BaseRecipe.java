@@ -10,6 +10,7 @@ import net.minecraft.world.level.Level;
 import java.util.List;
 
 /**
+ * @see tt432.millennium.devonly.recipe.register.RecipeTypes
  * @author DustW
  **/
 public abstract class BaseRecipe implements Recipe<Container> {
