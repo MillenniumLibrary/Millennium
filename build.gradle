@@ -4,6 +4,7 @@ buildscript {
         maven { url = 'https://maven.minecraftforge.net' }
         maven { url = 'https://repo.spongepowered.org/repository/maven-public/' }
         maven { url = 'https://maven.parchmentmc.org' }
+        gradlePluginPortal()
         mavenCentral()
     }
     dependencies {
@@ -13,9 +14,14 @@ buildscript {
     }
 }
 
+plugins {
+    id 'com.github.johnrengelman.shadow' version '7.1.2'
+}
+
 apply plugin: 'net.minecraftforge.gradle'
 apply plugin: 'org.spongepowered.mixin'
 apply plugin: 'org.parchmentmc.librarian.forgegradle'
+apply plugin: 'com.github.johnrengelman.shadow'
 apply plugin: 'java'
 
 group = 'tt432'
@@ -148,7 +154,7 @@ project.ext.lwjglNatives = "natives-windows"
 
 configurations {
     shade
-    implementation.extendsFrom shade
+    // implementation.extendsFrom shade
 }
 
 repositories {
@@ -167,9 +173,18 @@ dependencies {
     //shade "org.lwjgl:lwjgl-assimp:$lwjglVersion"
     //runtimeOnly "org.lwjgl:lwjgl-assimp:$lwjglVersion:$lwjglNatives"
 
+    shade("curse.maven:mcgltf-591547:3779702")
     implementation fg.deobf("curse.maven:mcgltf-591547:3779702")
 
     annotationProcessor 'org.spongepowered:mixin:0.8.5:processor'
+}
+
+shadowJar {
+    configurations = [project.configurations.shade]
+    relocate 'com.timlee9024.mcgltf', 'relocated.com.timlee9024.mcgltf'
+    dependencies {
+
+    }
 }
 
 // Example for how to get properties into the manifest for reading at runtime.
@@ -185,9 +200,9 @@ jar {
                 "Implementation-Timestamp": new Date().format("yyyy-MM-dd'T'HH:mm:ssZ")
         ])
     }
-    into('lib') {
-        from configurations.shade
-    }
+    // into('lib') {
+    //     from configurations.shade
+    // }
 }
 
 jar.finalizedBy('reobfJar')
