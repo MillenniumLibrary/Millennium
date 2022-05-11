@@ -24,7 +24,7 @@ import java.util.List;
 /**
  * @author DustW
  **/
-public abstract class BaseModelBlockEntityRenderer implements BlockEntityRenderer<ModelBlockEntity>, IGltfModelReceiver {
+public class BaseModelBlockEntityRenderer implements BlockEntityRenderer<ModelBlockEntity> {
     private final ResourceLocation model;
 
     public Runnable vanillaSkinningCommands;
@@ -44,12 +44,28 @@ public abstract class BaseModelBlockEntityRenderer implements BlockEntityRendere
         return true;
     }
 
-    @Override
-    public ResourceLocation getModelLocation() {
-        return model;
+    IGltfModelReceiver receiver;
+
+    public IGltfModelReceiver getModel() {
+        return receiver == null ? receiver = new IGltfModelReceiver() {
+            @Override
+            public ResourceLocation getModelLocation() {
+                return model;
+            }
+
+            @Override
+            public void onModelLoaded(RenderedGltfModel renderedModel) {
+                vanillaSkinningCommands = renderedModel.vanillaSceneSkinningCommands.get(0);
+                vanillaRenderCommands = renderedModel.vanillaSceneRenderCommands.get(0);
+                shaderModCommands = renderedModel.shaderModSceneCommands.get(0);
+                animations = GltfAnimations.createModelAnimations(renderedModel.gltfModel.getAnimationModels());
+            }
+        } : receiver;
     }
 
-    public abstract void renderInner(ModelBlockEntity pBlockEntity, float pPartialTick, PoseStack pPoseStack, MultiBufferSource pBufferSource, int pPackedLight, int pPackedOverlay);
+    public void renderInner(ModelBlockEntity pBlockEntity, float pPartialTick, PoseStack pPoseStack, MultiBufferSource pBufferSource, int pPackedLight, int pPackedOverlay) {
+
+    }
 
     @Override
     public void render(ModelBlockEntity pBlockEntity, float partialTick, PoseStack poseStack, MultiBufferSource pBufferSource, int packedLight, int packedOverlay) {
@@ -145,14 +161,6 @@ public abstract class BaseModelBlockEntityRenderer implements BlockEntityRendere
         GL30.glBindVertexArray(currentVAO);
         GL15.glBindBuffer(GL15.GL_ARRAY_BUFFER, currentArrayBuffer);
         GL15.glBindBuffer(GL15.GL_ELEMENT_ARRAY_BUFFER, currentElementArrayBuffer);
-    }
-
-    @Override
-    public void onModelLoaded(RenderedGltfModel renderedModel) {
-        vanillaSkinningCommands = renderedModel.vanillaSceneSkinningCommands.get(0);
-        vanillaRenderCommands = renderedModel.vanillaSceneRenderCommands.get(0);
-        shaderModCommands = renderedModel.shaderModSceneCommands.get(0);
-        animations = GltfAnimations.createModelAnimations(renderedModel.gltfModel.getAnimationModels());
     }
 
     protected void renderWithVanillaCommands() {

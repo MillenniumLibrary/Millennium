@@ -1,15 +1,12 @@
 package tt432.millennium.devonly.client;
 
-import com.mojang.blaze3d.vertex.PoseStack;
 import com.timlee9024.mcgltf.MCglTF;
-import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.EntityRenderersEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import tt432.millennium.Millennium;
 import tt432.millennium.devonly.AllInOneObject;
-import tt432.millennium.devonly.ModelBlockEntity;
 import tt432.millennium.renderer.model.gltf.BaseModelBlockEntityRenderer;
 
 /**
@@ -19,17 +16,12 @@ import tt432.millennium.renderer.model.gltf.BaseModelBlockEntityRenderer;
 public class DevClientRegistry {
     @SubscribeEvent
     public static void onEvent(final EntityRenderersEvent.RegisterRenderers event) {
-        if (Millennium.DEV_MODE) {
+        if (Millennium.DEV_MODE && Millennium.MC_GLTF_LOAD) {
             for (AllInOneObject allInOneObject : AllInOneObject.list) {
                 event.registerBlockEntityRenderer(allInOneObject.beType.get(), (c) -> {
-                    var bbr = new BaseModelBlockEntityRenderer(allInOneObject.model) {
-                        @Override
-                        public void renderInner(ModelBlockEntity pBlockEntity, float pPartialTick, PoseStack pPoseStack, MultiBufferSource pBufferSource, int pPackedLight, int pPackedOverlay) {
+                    var bbr = new BaseModelBlockEntityRenderer(allInOneObject.model);
 
-                        }
-                    };
-
-                    MCglTF.getInstance().addGltfModelReceiver(bbr);
+                    MCglTF.getInstance().addGltfModelReceiver(bbr.getModel());
 
                     return bbr;
                 });

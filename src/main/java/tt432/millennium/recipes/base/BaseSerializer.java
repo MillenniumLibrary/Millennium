@@ -6,7 +6,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraftforge.registries.ForgeRegistryEntry;
 import org.jetbrains.annotations.Nullable;
-import tt432.millennium.utils.json.JsonUtils;
+import tt432.millennium.utils.json.JsonUtil;
 
 /**
  * @see tt432.millennium.devonly.recipe.register.RecipeSerializers
@@ -25,22 +25,22 @@ public class BaseSerializer<RECIPE extends BaseRecipe>
     @Nullable
     @Override
     public RECIPE fromNetwork(ResourceLocation pRecipeId, FriendlyByteBuf pBuffer) {
-        return JsonUtils.INSTANCE.normal.fromJson(pBuffer.readUtf(), recipeClass);
+        return JsonUtil.INSTANCE.normal.fromJson(pBuffer.readUtf(), recipeClass);
     }
 
     @Override
     public void toNetwork(FriendlyByteBuf pBuffer, RECIPE pRecipe) {
-        pBuffer.writeUtf(JsonUtils.INSTANCE.normal.toJson(pRecipe));
+        pBuffer.writeUtf(JsonUtil.INSTANCE.normal.toJson(pRecipe));
     }
 
     @Override
     public RECIPE fromJson(ResourceLocation pRecipeId, JsonObject pSerializedRecipe) {
-        var result = JsonUtils.INSTANCE.normal.fromJson(pSerializedRecipe, recipeClass);
+        var result = JsonUtil.INSTANCE.normal.fromJson(pSerializedRecipe, recipeClass);
         result.setID(pRecipeId);
         return result;
     }
 
     public JsonObject toJson(RECIPE pRecipe) {
-        return JsonUtils.INSTANCE.normal.toJsonTree(pRecipe).getAsJsonObject();
+        return JsonUtil.INSTANCE.normal.toJsonTree(pRecipe).getAsJsonObject();
     }
 }

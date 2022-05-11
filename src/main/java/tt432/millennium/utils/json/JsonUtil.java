@@ -10,14 +10,14 @@ import tt432.millennium.utils.json.serializer.ItemStackSerializer;
 /**
  * @author DustW
  **/
-public enum JsonUtils {
+public enum JsonUtil {
     /** 最 佳 单 例 */
     INSTANCE;
     public final Gson normal;
     public final Gson pretty;
     public final Gson noExpose;
 
-    JsonUtils() {
+    JsonUtil() {
         GsonBuilder builder = new GsonBuilder()
                 // 关闭 html 转义
                 .disableHtmlEscaping()
