@@ -14,7 +14,7 @@ public class ItemStackSerializer implements JsonSerializer<ItemStack>, JsonDeser
 
     @Override
     public ItemStack deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
-        return CraftingHelper.getItemStack((JsonObject) json, true);
+        return CraftingHelper.getItemStack(json.getAsJsonObject(), true);
     }
 
     @Override
@@ -26,8 +26,10 @@ public class ItemStackSerializer implements JsonSerializer<ItemStack>, JsonDeser
         result.addProperty("item", item);
 
         var tag = allTag.getCompound("tag");
-        var fCap = allTag.getCompound("ForgeCaps");
-        tag.put("ForgeCaps", fCap);
+        if (allTag.contains("ForgeCaps")) {
+            var fCap = allTag.getCompound("ForgeCaps");
+            tag.put("ForgeCaps", fCap);
+        }
         JsonPrimitive nbt = new JsonPrimitive(tag.toString());
         result.add("nbt", nbt);
 
