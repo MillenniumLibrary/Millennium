@@ -7,6 +7,7 @@ import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
+import net.minecraftforge.registries.RegistryObject;
 import tt432.millennium.Millennium;
 
 /**
@@ -34,6 +35,9 @@ public class DevRegistry {
     public static final AllInOneObject MERCEDES_BLOCK = register(new AllInOneObject("mercedes_block",
             new ResourceLocation(Millennium.MOD_ID, "models/gltf/mercedes/mercedes.gltf")));
 
+
+    public static final RegistryObject<Item> COCKTAIL = ITEMS.register("cocktail",
+            () -> new Item(new Item.Properties()));
 
 
     private static AllInOneObject register(AllInOneObject object) {
