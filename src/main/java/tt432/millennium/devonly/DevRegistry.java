@@ -2,6 +2,7 @@ package tt432.millennium.devonly;
 
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
@@ -9,6 +10,8 @@ import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
 import tt432.millennium.Millennium;
+import tt432.millennium.devonly.recipe.recipe.EnchantTestRecipe;
+import tt432.millennium.recipes.base.BaseSerializer;
 
 /**
  * @author DustW
@@ -39,6 +42,14 @@ public class DevRegistry {
     public static final RegistryObject<Item> COCKTAIL = ITEMS.register("cocktail",
             () -> new Item(new Item.Properties()));
 
+    /** recipe */
+    private static final DeferredRegister<RecipeSerializer<?>> RECIPE_SERIALIZERS =
+            DeferredRegister.create(ForgeRegistries.RECIPE_SERIALIZERS, Millennium.MOD_ID);
+
+    public static final RegistryObject<RecipeSerializer<EnchantTestRecipe>> ENCHANT_TEST_RECIPE =
+            RECIPE_SERIALIZERS.register("enchant_test_recipe", () -> new BaseSerializer<>(EnchantTestRecipe.class));
+
+
 
     private static AllInOneObject register(AllInOneObject object) {
         object.registerBlockEntity(BLOCK_ENTITIES);
@@ -53,5 +64,6 @@ public class DevRegistry {
         BLOCKS.register(bus);
         ITEMS.register(bus);
         BLOCK_ENTITIES.register(bus);
+        RECIPE_SERIALIZERS.register(bus);
     }
 }

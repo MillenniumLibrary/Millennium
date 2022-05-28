@@ -2,63 +2,111 @@ package tt432.millennium.recipes.ingredients;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.nbt.ListTag;
-import net.minecraft.nbt.NumericTag;
-import net.minecraft.nbt.StringTag;
-import net.minecraft.network.chat.TranslatableComponent;
-import org.apache.logging.log4j.LogManager;
+import net.minecraft.nbt.*;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.function.Predicate;
 
 /**
+ * 匹配 nbt
  * @author DustW
  **/
-public class NbtIngredient implements Predicate<CompoundTag> {
+public class NbtIngredient implements Predicate<Tag> {
 
-    public static class SingleNbt implements Predicate<CompoundTag> {
+    @Expose
+    @SerializedName("nbt_list")
+    List<SingleNbt> nbtList;
+    @Expose
+    boolean all;
 
-        @Expose
-        String path;
-        @Expose
-        String key;
-        @Expose
-        @SerializedName("match_mode")
-        Mode matchMode;
-        @Expose
-        Object value;
+    public NbtIngredient(SingleNbt... nbtList) {
+        this.nbtList = List.of(nbtList);
+    }
 
-        List<String> pathList;
+    public NbtIngredient(boolean all, SingleNbt... nbtList) {
+        this(nbtList);
+        this.all = all;
+    }
 
-        @Override
-        public boolean test(CompoundTag compoundTag) {
-            if (pathList == null) {
-                pathList = List.of(path.split("/"));
-            }
+    @FunctionalInterface
+    private interface Tester {
+        boolean test(Object value1, Object value2);
+    }
 
-            for (String s : pathList) {
-                if (compoundTag.contains(s)) {
-                    try {
-                        compoundTag = compoundTag.getCompound(s);
-                    }
-                    catch (Exception e) {
-                        LogManager.getLogger().error(new TranslatableComponent("error.NbtIngredient.path", compoundTag.toString()));
-                        return false;
-                    }
-                }
-                else {
-                    return false;
-                }
-            }
-
-            return compoundTag.contains(key) && matchMode.test(value, compoundTag.get(key));
+    @Override
+    public boolean test(Tag tag) {
+        if (all) {
+            return nbtList.stream().allMatch(nbt -> nbt.test(tag));
+        }
+        else {
+            return nbtList.stream().anyMatch(nbt -> nbt.test(tag));
         }
     }
 
-    public enum Mode {
+    public static class SingleNbt implements Predicate<Tag> {
+
+        @Expose String path;
+        @Expose String key;
+        @Expose MatchMode mode;
+        @Expose Object value;
+        @Nullable @Expose NbtIngredient child;
+
+        List<String> pathList;
+
+        public SingleNbt(String path, String key, MatchMode mode, Object value, @Nullable NbtIngredient child) {
+            this.path = path;
+            this.key = key;
+            this.mode = mode;
+            this.value = value;
+            this.child = child;
+        }
+
+        @Override
+        public boolean test(Tag tag) {
+            if (key == null) {
+                // TODO 错误信息
+                throw new IllegalArgumentException();
+            }
+
+            if (pathList == null) {
+                if (path != null && !path.isEmpty()) {
+                    pathList = List.of(path.split("/"));
+                } else {
+                    pathList = List.of();
+                }
+            }
+
+            if (tag instanceof CompoundTag compoundTag) {
+                for (String s : pathList) {
+                    if (compoundTag.contains(s)) {
+                        try {
+                            compoundTag = compoundTag.getCompound(s);
+                        } catch (Exception e) {
+                            return false;
+                        }
+                    } else {
+                        return false;
+                    }
+                }
+
+                return compoundTag.contains(key) && (
+                        compoundTag.getTagType(key) == Tag.TAG_LIST ?
+                                child != null &&
+                                        ((ListTag) Objects.requireNonNull(compoundTag.get(key)))
+                                                .stream().anyMatch(c -> child.test(c)) :
+                                mode.test(value, compoundTag.get(key)));
+            }
+            else {
+                return mode.test(value, tag);
+            }
+        }
+    }
+
+    public enum MatchMode {
         /** 超过 */
-        MODE((o1, o2) -> {
+        MORE((o1, o2) -> {
             if (o1 instanceof Number number && o2 instanceof NumericTag numericTag) {
                 return numericTag.getAsNumber().doubleValue() > number.doubleValue();
             }
@@ -99,37 +147,12 @@ public class NbtIngredient implements Predicate<CompoundTag> {
 
         Tester tester;
 
-        Mode(Tester tester) {
+        MatchMode(Tester tester) {
             this.tester = tester;
         }
 
         public boolean test(Object value1, Object value2) {
             return tester.test(value1, value2);
-        }
-    }
-
-    @Expose
-    @SerializedName("nbt_list")
-    List<SingleNbt> nbtList;
-    @Expose
-    boolean all;
-
-    public NbtIngredient(SingleNbt... nbtList) {
-        this.nbtList = List.of(nbtList);
-    }
-
-    @FunctionalInterface
-    private interface Tester {
-        boolean test(Object value1, Object value2);
-    }
-
-    @Override
-    public boolean test(CompoundTag tag) {
-        if (all) {
-            return nbtList.stream().allMatch(nbt -> nbt.test(tag));
-        }
-        else {
-            return nbtList.stream().anyMatch(nbt -> nbt.test(tag));
         }
     }
 }

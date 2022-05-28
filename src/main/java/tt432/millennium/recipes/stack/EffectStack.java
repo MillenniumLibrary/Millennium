@@ -1,6 +1,8 @@
 package tt432.millennium.recipes.stack;
 
+import com.google.gson.JsonParseException;
 import com.google.gson.annotations.Expose;
+import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraftforge.registries.ForgeRegistries;
@@ -13,9 +15,9 @@ import java.util.function.Supplier;
 public class EffectStack {
 
     @Expose
-    public String id;
+    public String effect;
     @Expose
-    public int lvl;
+    public int level;
     @Expose
     public int duration;
 
@@ -23,10 +25,13 @@ public class EffectStack {
 
     public MobEffectInstance get() {
         if (cache == null) {
-            var effect = ForgeRegistries.MOB_EFFECTS.getValue(new ResourceLocation(id));
+            var effect = ForgeRegistries.MOB_EFFECTS.getValue(new ResourceLocation(this.effect));
 
             if (effect != null) {
-                cache = () -> new MobEffectInstance(effect, duration, lvl - 1);
+                cache = () -> new MobEffectInstance(effect, duration, level - 1);
+            }
+            else {
+                throw new JsonParseException(new TranslatableComponent("error.EffectStack.effect.notfound", this.effect).getString());
             }
         }
 

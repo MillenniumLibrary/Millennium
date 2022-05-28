@@ -1,23 +1,96 @@
 package tt432.millennium.recipes.ingredients;
 
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
+import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraftforge.common.crafting.AbstractIngredient;
+import net.minecraftforge.common.crafting.IIngredientSerializer;
 import net.minecraftforge.registries.ForgeRegistries;
+import org.jetbrains.annotations.Nullable;
+import tt432.millennium.utils.json.JsonUtil;
 
+import java.util.Arrays;
+import java.util.Collection;
 import java.util.List;
 import java.util.function.Predicate;
 
 /**
+ * 添加了 nbt 扩展的 Ingredient
+ * @see net.minecraft.world.item.crafting.Ingredient
  * @author DustW
  **/
-public class ExItemIngredient implements Predicate<ItemStack> {
+public class ExItemIngredient extends AbstractIngredient {
 
-    public static class SingleExItem implements Predicate<ItemStack> {
+    @Expose
+    @SerializedName("items")
+    public List<SingleExItem> singleExItems;
+
+    public ExItemIngredient(SingleExItem... items) {
+        super(Arrays.stream(items));
+        this.singleExItems = List.of(items);
+    }
+
+    public void shrink(ItemStack itemStack) {
+        for (SingleExItem singleExItem : singleExItems) {
+            if (singleExItem.test(itemStack)) {
+                itemStack.shrink(singleExItem.amount);
+                break;
+            }
+        }
+    }
+
+    @Override
+    public void dissolve() {
+        if (this.itemStacks == null) {
+            this.itemStacks = this.singleExItems.stream().flatMap((value) -> value.getItems().stream())
+                    .distinct().toArray(ItemStack[]::new);
+        }
+    }
+
+    @Override
+    public boolean test(ItemStack input) {
+        return singleExItems.stream().anyMatch(item -> item.test(input));
+    }
+
+    @Override
+    public boolean isSimple() {
+        return false;
+    }
+
+    @Override
+    public IIngredientSerializer<? extends Ingredient> getSerializer() {
+        return new IIngredientSerializer<ExItemIngredient>() {
+            @Override
+            public ExItemIngredient parse(FriendlyByteBuf buffer) {
+                return JsonUtil.INSTANCE.normal.fromJson(buffer.readUtf(), ExItemIngredient.class);
+            }
+
+            @Override
+            public ExItemIngredient parse(JsonObject json) {
+                return JsonUtil.INSTANCE.normal.fromJson(json, ExItemIngredient.class);
+            }
+
+            @Override
+            public void write(FriendlyByteBuf buffer, ExItemIngredient ingredient) {
+                buffer.writeUtf(JsonUtil.INSTANCE.normal.toJson(ingredient));
+            }
+        };
+    }
+
+    @Override
+    public JsonElement toJson() {
+        return JsonUtil.INSTANCE.normal.toJsonTree(this);
+    }
+
+    public static class SingleExItem implements Predicate<ItemStack>, Ingredient.Value {
 
         private Item itemCache;
         private TagKey<Item> tagCache;
@@ -25,31 +98,32 @@ public class ExItemIngredient implements Predicate<ItemStack> {
         private boolean cached;
 
         @Expose
-        @SerializedName("item_name")
+        @SerializedName("item")
         public String itemName;
         @Expose
         public int amount;
         @Expose
-        @SerializedName("nbt")
+        @Nullable
         public NbtIngredient nbt;
 
-        public SingleExItem(String itemName, int amount) {
+        public SingleExItem(String itemName, int amount, @Nullable NbtIngredient nbt) {
             this.itemName = itemName;
             this.amount = amount;
+            this.nbt = nbt;
         }
 
-        public SingleExItem(Item item, int amount) {
-            this(item.getRegistryName().toString(), amount);
+        public SingleExItem(Item item, int amount, @Nullable NbtIngredient nbt) {
+            this(item.getRegistryName().toString(), amount, nbt);
             tag = false;
             itemCache = item;
         }
 
-        public SingleExItem(ItemStack itemStack) {
-            this(itemStack.getItem(), itemStack.getCount());
+        public SingleExItem(ItemStack itemStack, @Nullable NbtIngredient nbt) {
+            this(itemStack.getItem(), itemStack.getCount(), nbt);
         }
 
-        public SingleExItem(TagKey<Item> tag, int amount) {
-            this("#" + tag.location(), amount);
+        public SingleExItem(TagKey<Item> tag, int amount, @Nullable NbtIngredient nbt) {
+            this("#" + tag.location(), amount, nbt);
             this.tag = true;
             tagCache = tag;
         }
@@ -84,28 +158,25 @@ public class ExItemIngredient implements Predicate<ItemStack> {
                     itemCache = ForgeRegistries.ITEMS.getValue(new ResourceLocation(itemName));
                 }
 
+                value = tag ? new Ingredient.TagValue(tagCache) :
+                        new Ingredient.ItemValue(new ItemStack(itemCache));
+
                 cached = true;
             }
         }
-    }
 
-    @Expose
-    @SerializedName("items")
-    public List<SingleExItem> singleExItems;
-    @Expose
-    boolean all;
+        Ingredient.Value value;
 
-    public ExItemIngredient(SingleExItem... fluids) {
-        this.singleExItems = List.of(fluids);
-    }
+        @Override
+        public Collection<ItemStack> getItems() {
+            cache();
 
-    @Override
-    public boolean test(ItemStack input) {
-        if (all) {
-            return singleExItems.stream().allMatch(item -> item.test(input));
+            return value.getItems();
         }
-        else {
-            return singleExItems.stream().anyMatch(item -> item.test(input));
+
+        @Override
+        public JsonObject serialize() {
+            return JsonUtil.INSTANCE.normal.toJsonTree(this).getAsJsonObject();
         }
     }
 }

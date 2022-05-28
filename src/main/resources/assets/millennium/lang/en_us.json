@@ -1,3 +1,4 @@
 {
-  "error.NbtIngredient.path": "Path error: can't read CompoundTag in %s"
+  "error.NbtIngredient.path": "Path error: can't read CompoundTag in %s",
+  "error.EffectStack.effect.notfound": "Recipe Json Error: %s effect not found"
 }

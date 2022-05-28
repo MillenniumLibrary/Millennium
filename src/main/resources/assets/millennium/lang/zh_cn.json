@@ -1,3 +1,4 @@
 {
-  "error.NbtIngredient.path": "Path 错误，CompoundTag 读取失败： %s"
+  "error.NbtIngredient.path": "Path 错误，CompoundTag 读取失败： %s",
+  "error.EffectStack.effect.notfound": "配方 Json 错误: 找不到 %s effect"
 }

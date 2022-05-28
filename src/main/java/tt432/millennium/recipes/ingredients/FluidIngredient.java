@@ -13,9 +13,32 @@ import java.util.List;
 import java.util.function.Predicate;
 
 /**
+ * fluid 版本的 ExItemIngredient
+ * @see ExItemIngredient
  * @author DustW
  **/
 public class FluidIngredient implements Predicate<FluidStack> {
+    @Expose
+    @SerializedName("fluid")
+    public List<SingleFluid> fluidIngredients;
+
+    public FluidIngredient(SingleFluid... fluids) {
+        this.fluidIngredients = List.of(fluids);
+    }
+
+    public void shrink(FluidStack fluidStack) {
+        for (SingleFluid fluidIngredient : fluidIngredients) {
+            if (fluidIngredient.test(fluidStack)) {
+                fluidStack.shrink(fluidIngredient.amount);
+                break;
+            }
+        }
+    }
+
+    @Override
+    public boolean test(FluidStack input) {
+        return fluidIngredients.stream().anyMatch(fluid -> fluid.test(input));
+    }
 
     public static class SingleFluid implements Predicate<FluidStack> {
 
@@ -25,10 +48,12 @@ public class FluidIngredient implements Predicate<FluidStack> {
         private boolean cached;
 
         @Expose
-        @SerializedName("fluid_name")
+        @SerializedName("fluid")
         public String fluidName;
         @Expose
         public int amount;
+        @Expose
+        public NbtIngredient nbt;
 
         public SingleFluid(String fluidName, int amount) {
             this.fluidName = fluidName;
@@ -71,26 +96,6 @@ public class FluidIngredient implements Predicate<FluidStack> {
             else {
                 return stack.getFluid() == fluidCache && stack.getAmount() >= amount;
             }
-        }
-    }
-
-    @Expose
-    @SerializedName("fluid")
-    public List<SingleFluid> fluidIngredients;
-    @Expose
-    boolean all;
-
-    public FluidIngredient(SingleFluid... fluids) {
-        this.fluidIngredients = List.of(fluids);
-    }
-
-    @Override
-    public boolean test(FluidStack input) {
-        if (all) {
-            return fluidIngredients.stream().allMatch(fluid -> fluid.test(input));
-        }
-        else {
-            return fluidIngredients.stream().anyMatch(fluid -> fluid.test(input));
         }
     }
 }

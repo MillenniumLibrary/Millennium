@@ -3,6 +3,7 @@ package tt432.millennium.recipes.base;
 import com.google.gson.JsonObject;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.Container;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraftforge.registries.ForgeRegistryEntry;
 import org.jetbrains.annotations.Nullable;
@@ -12,7 +13,7 @@ import tt432.millennium.utils.json.JsonUtil;
  * @see tt432.millennium.devonly.recipe.register.RecipeSerializers
  * @author DustW
  **/
-public class BaseSerializer<RECIPE extends BaseRecipe>
+public class BaseSerializer<C extends Container, RECIPE extends BaseRecipe<C>>
         extends ForgeRegistryEntry<RecipeSerializer<?>>
         implements RecipeSerializer<RECIPE> {
 

@@ -1,0 +1,50 @@
+{
+  "ingredients": [
+    {
+      "items": [
+        {
+          "item": "minecraft:iron_sword",
+          "amount": 1,
+          "nbt": {
+            "nbt_list": [
+              {
+                "path": "",
+                "key": "Enchantments",
+                "child": {
+                  "nbt_list": [
+                    {
+                      "path": "",
+                      "key": "id",
+                      "mode": "EQUAL",
+                      "value": "minecraft:sharpness"
+                    },
+                    {
+                      "path": "",
+                      "key": "lvl",
+                      "mode": "MORE",
+                      "value": 1
+                    },
+                    {
+                      "path": "",
+                      "key": "lvl",
+                      "mode": "LESS",
+                      "value": 4
+                    }
+                  ],
+                  "all": true
+                }
+              }
+            ],
+            "all": false
+          }
+        }
+      ]
+    }
+  ],
+  "result": {
+    "item": "minecraft:glass_bottle",
+    "nbt": "{}",
+    "count": 1
+  },
+  "type": "millennium:enchant_test_recipe"
+}

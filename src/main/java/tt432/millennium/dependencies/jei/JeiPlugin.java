@@ -1,16 +1,12 @@
 package tt432.millennium.dependencies.jei;
 
 import mezz.jei.api.IModPlugin;
-import mezz.jei.api.recipe.RecipeType;
 import mezz.jei.api.registration.*;
 import net.minecraft.client.Minecraft;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.Container;
 import net.minecraft.world.item.crafting.Recipe;
 import tt432.millennium.Millennium;
-import tt432.millennium.dependencies.jei.category.CocktailRecipeCategory;
-import tt432.millennium.devonly.recipe.recipe.CocktailRecipe;
-import tt432.millennium.devonly.recipe.register.RecipeTypes;
 
 import java.util.List;
 
@@ -19,9 +15,9 @@ import java.util.List;
  **/
 @mezz.jei.api.JeiPlugin
 public class JeiPlugin implements IModPlugin {
-    public static final RecipeType<CocktailRecipe> COCKTAIL =
-            new RecipeType<>(new ResourceLocation(Millennium.MOD_ID, "cocktail"),
-                    CocktailRecipe.class);
+    // public static final RecipeType<CocktailRecipe> COCKTAIL =
+    //         new RecipeType<>(new ResourceLocation(Millennium.MOD_ID, "cocktail"),
+    //                 CocktailRecipe.class);
 
     protected <C extends Container, T extends Recipe<C>> List<T> getRecipe(net.minecraft.world.item.crafting.RecipeType<T> recipeType) {
         return Minecraft.getInstance().level.getRecipeManager().getAllRecipesFor(recipeType);
@@ -29,12 +25,12 @@ public class JeiPlugin implements IModPlugin {
 
     @Override
     public void registerCategories(IRecipeCategoryRegistration registry) {
-        registry.addRecipeCategories(new CocktailRecipeCategory(registry.getJeiHelpers().getGuiHelper()));
+        //registry.addRecipeCategories(new CocktailRecipeCategory(registry.getJeiHelpers().getGuiHelper()));
     }
 
     @Override
     public void registerRecipes(IRecipeRegistration registration) {
-        registration.addRecipes(COCKTAIL, getRecipe(RecipeTypes.COCKTAIL.get()));
+        //registration.addRecipes(COCKTAIL, getRecipe(RecipeTypes.COCKTAIL.get()));
     }
 
     @Override
