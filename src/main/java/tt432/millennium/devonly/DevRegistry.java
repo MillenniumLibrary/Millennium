@@ -1,8 +1,12 @@
 package tt432.millennium.devonly;
 
+import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.Container;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.item.crafting.RecipeSerializer;
+import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
@@ -10,7 +14,9 @@ import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
 import tt432.millennium.Millennium;
+import tt432.millennium.devonly.recipe.recipe.BioTransformationRecipe;
 import tt432.millennium.devonly.recipe.recipe.EnchantTestRecipe;
+import tt432.millennium.recipes.base.BaseRecipe;
 import tt432.millennium.recipes.base.BaseSerializer;
 
 /**
@@ -46,10 +52,30 @@ public class DevRegistry {
     private static final DeferredRegister<RecipeSerializer<?>> RECIPE_SERIALIZERS =
             DeferredRegister.create(ForgeRegistries.RECIPE_SERIALIZERS, Millennium.MOD_ID);
 
+    public static final DeferredRegister<RecipeType<?>> RECIPE_TYPES =
+            DeferredRegister.create(Registry.RECIPE_TYPE.key(), Millennium.MOD_ID);
+
     public static final RegistryObject<RecipeSerializer<EnchantTestRecipe>> ENCHANT_TEST_RECIPE =
             RECIPE_SERIALIZERS.register("enchant_test_recipe", () -> new BaseSerializer<>(EnchantTestRecipe.class));
 
+    public static final RegistryObject<RecipeType<BioTransformationRecipe<?, ?>>> BIO = register("bio");
 
+    public static final RegistryObject<RecipeSerializer<?>> BIO_RECIPE =
+            register("bio", BioTransformationRecipe.class);
+
+
+    private static <C extends Container, T extends BaseRecipe<C>> RegistryObject<RecipeSerializer<?>> register(String name, Class<T> clazz) {
+        return RECIPE_SERIALIZERS.register(name, () -> new BaseSerializer<>(clazz));
+    }
+
+    private static <T extends Recipe<?>> RegistryObject<RecipeType<T>> register(String name) {
+        return RECIPE_TYPES.register(name, () -> new RecipeType<>() {
+            @Override
+            public String toString() {
+                return name;
+            }
+        });
+    }
 
     private static AllInOneObject register(AllInOneObject object) {
         object.registerBlockEntity(BLOCK_ENTITIES);
@@ -64,6 +90,7 @@ public class DevRegistry {
         BLOCKS.register(bus);
         ITEMS.register(bus);
         BLOCK_ENTITIES.register(bus);
+        RECIPE_TYPES.register(bus);
         RECIPE_SERIALIZERS.register(bus);
     }
 }

@@ -36,6 +36,6 @@ public class EnchantTestRecipes extends DataGenRecipes {
     }
 
     protected void addEnchantTestRecipe(EnchantTestRecipe recipe) {
-        addRecipe(defaultName(recipe.getResultItem().getItem()), JsonUtil.INSTANCE.pretty.toJson(recipe), "smithing");
+        addRecipe(defaultName(recipe.getResultItem().getItem()), baseRecipe(recipe), "enchant_test");
     }
 }

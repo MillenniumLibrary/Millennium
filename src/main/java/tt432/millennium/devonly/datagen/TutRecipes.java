@@ -5,6 +5,7 @@ import net.minecraft.data.HashCache;
 import net.minecraft.data.recipes.FinishedRecipe;
 import net.minecraft.data.recipes.RecipeProvider;
 import net.minecraft.resources.ResourceLocation;
+import tt432.millennium.devonly.datagen.recipes.BioTransformationRecipes;
 import tt432.millennium.devonly.datagen.recipes.DataGenRecipes;
 import tt432.millennium.devonly.datagen.recipes.EnchantTestRecipes;
 
@@ -81,5 +82,6 @@ public class TutRecipes extends RecipeProvider {
 
     protected void addAvarusRecipes() {
         recipes.add(new EnchantTestRecipes());
+        recipes.add(new BioTransformationRecipes());
     }
 }

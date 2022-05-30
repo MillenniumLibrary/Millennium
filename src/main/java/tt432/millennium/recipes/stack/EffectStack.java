@@ -12,7 +12,7 @@ import java.util.function.Supplier;
 /**
  * @author DustW
  **/
-public class EffectStack {
+public class EffectStack implements Supplier<MobEffectInstance> {
 
     @Expose
     public String effect;
@@ -23,6 +23,7 @@ public class EffectStack {
 
     private Supplier<MobEffectInstance> cache;
 
+    @Override
     public MobEffectInstance get() {
         if (cache == null) {
             var effect = ForgeRegistries.MOB_EFFECTS.getValue(new ResourceLocation(this.effect));

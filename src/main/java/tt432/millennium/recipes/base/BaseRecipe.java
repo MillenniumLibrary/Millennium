@@ -11,11 +11,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * @see tt432.millennium.devonly.recipe.register.RecipeTypes
+ * 如果你不是很想读，请注意：只有有 Expose 注解的字段才可能会被序列化反序列化。
+ *
  * @see tt432.millennium.devonly.recipe.recipe.EnchantTestRecipe
  * @author DustW
  **/
 public abstract class BaseRecipe<T extends Container> implements Recipe<T> {
+    /** 如无特殊需求，请继承此类 */
     public abstract static class Base extends BaseRecipe<Container> {
 
     }
@@ -25,6 +27,13 @@ public abstract class BaseRecipe<T extends Container> implements Recipe<T> {
     @Expose
     public String type;
 
+    /**
+     * 泛化一下尝试与其他类型的容器进行兼容。
+     * 如果需要流体之类的其他输入还请自行添加。
+     *
+     * @param inputs 输入的物品
+     * @return       是否匹配合成表
+     */
     public abstract boolean matches(List<ItemStack> inputs);
 
     @Override
