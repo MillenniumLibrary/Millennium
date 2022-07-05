@@ -2,22 +2,24 @@ package tt432.millennium.utils.json;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import net.minecraft.core.NonNullList;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
 import tt432.millennium.utils.json.serializer.IngredientSerializer;
 import tt432.millennium.utils.json.serializer.ItemStackSerializer;
+import tt432.millennium.utils.json.serializer.NonNullListSerializer;
 
 /**
  * @author DustW
  **/
-public enum JsonUtil {
+public enum JsonUtils {
     /** 最 佳 单 例 */
     INSTANCE;
     public final Gson normal;
     public final Gson pretty;
     public final Gson noExpose;
 
-    JsonUtil() {
+    JsonUtils() {
         GsonBuilder builder = new GsonBuilder()
                 // 关闭 html 转义
                 .disableHtmlEscaping()
@@ -25,7 +27,8 @@ public enum JsonUtil {
                 .enableComplexMapKeySerialization()
                 // 注册自定义类型的序列化/反序列化器
                 .registerTypeAdapter(Ingredient.class, new IngredientSerializer())
-                .registerTypeAdapter(ItemStack.class, new ItemStackSerializer());
+                .registerTypeAdapter(ItemStack.class, new ItemStackSerializer())
+                .registerTypeAdapter(NonNullList.class, new NonNullListSerializer());
 
         // 无视 @Expose 注解的 Gson 实例
         noExpose = builder.create();

@@ -6,15 +6,10 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.Container;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraftforge.registries.ForgeRegistryEntry;
-import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import tt432.millennium.utils.json.JsonUtil;
-
-import javax.annotation.ParametersAreNonnullByDefault;
-import java.util.function.Supplier;
+import tt432.millennium.utils.json.JsonUtils;
 
 /**
- * 大概是不需要动的
  * @author DustW
  **/
 public class BaseSerializer<C extends Container, RECIPE extends BaseRecipe<C>>
@@ -29,33 +24,23 @@ public class BaseSerializer<C extends Container, RECIPE extends BaseRecipe<C>>
 
     @Nullable
     @Override
-    @ParametersAreNonnullByDefault
-    public RECIPE fromNetwork(ResourceLocation recipeId, FriendlyByteBuf buffer) {
-        var result = JsonUtil.INSTANCE.normal.fromJson(buffer.readUtf(), recipeClass);
-        result.setID(recipeId);
-        return result;
+    public RECIPE fromNetwork(ResourceLocation pRecipeId, FriendlyByteBuf pBuffer) {
+        return JsonUtils.INSTANCE.normal.fromJson(pBuffer.readUtf(), recipeClass)
+                .setId(pRecipeId).setSerializer(this);
     }
 
     @Override
-    @ParametersAreNonnullByDefault
-    public void toNetwork(FriendlyByteBuf pBuffer, RECIPE recipe) {
-        pBuffer.writeUtf(JsonUtil.INSTANCE.normal.toJson(recipe));
+    public void toNetwork(FriendlyByteBuf pBuffer, RECIPE pRecipe) {
+        pBuffer.writeUtf(JsonUtils.INSTANCE.normal.toJson(pRecipe));
     }
 
     @Override
-    @NotNull
-    @ParametersAreNonnullByDefault
-    public RECIPE fromJson(ResourceLocation recipeId, JsonObject serializedRecipe) {
-        var result = JsonUtil.INSTANCE.normal.fromJson(serializedRecipe, recipeClass);
-        result.setID(recipeId);
-        return result;
+    public RECIPE fromJson(ResourceLocation pRecipeId, JsonObject pSerializedRecipe) {
+        return JsonUtils.INSTANCE.normal.fromJson(pSerializedRecipe, recipeClass)
+                .setId(pRecipeId).setSerializer(this);
     }
 
     public JsonObject toJson(RECIPE pRecipe) {
-        return JsonUtil.INSTANCE.normal.toJsonTree(pRecipe).getAsJsonObject();
-    }
-
-    public static <C extends Container, R extends BaseRecipe<C>> Supplier<BaseSerializer<C, R>> of(Class<R> recipeClass) {
-        return () -> new BaseSerializer<>(recipeClass);
+        return JsonUtils.INSTANCE.normal.toJsonTree(pRecipe).getAsJsonObject();
     }
 }

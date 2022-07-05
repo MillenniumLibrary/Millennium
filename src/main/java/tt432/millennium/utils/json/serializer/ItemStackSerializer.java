@@ -10,7 +10,7 @@ import java.lang.reflect.Type;
 /**
  * @author DustW
  **/
-public class ItemStackSerializer implements JsonSerializer<ItemStack>, JsonDeserializer<ItemStack> {
+public class ItemStackSerializer implements BaseSerializer<ItemStack> {
 
     @Override
     public ItemStack deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
@@ -30,8 +30,11 @@ public class ItemStackSerializer implements JsonSerializer<ItemStack>, JsonDeser
             var fCap = allTag.getCompound("ForgeCaps");
             tag.put("ForgeCaps", fCap);
         }
-        JsonPrimitive nbt = new JsonPrimitive(tag.toString());
-        result.add("nbt", nbt);
+
+        if (!tag.isEmpty()) {
+            JsonPrimitive nbt = new JsonPrimitive(tag.toString());
+            result.add("nbt", nbt);
+        }
 
         result.addProperty("count", src.getCount());
 
