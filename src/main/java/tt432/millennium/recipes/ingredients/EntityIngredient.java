@@ -1,7 +1,6 @@
 package tt432.millennium.recipes.ingredients;
 
 import com.google.gson.annotations.Expose;
-import com.google.gson.annotations.SerializedName;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;

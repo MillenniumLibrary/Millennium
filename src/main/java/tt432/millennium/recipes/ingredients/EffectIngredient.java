@@ -2,13 +2,11 @@ package tt432.millennium.recipes.ingredients;
 
 import com.google.gson.JsonParseException;
 import com.google.gson.annotations.Expose;
-import net.minecraft.client.renderer.EffectInstance;
 import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraftforge.registries.ForgeRegistries;
-import tt432.millennium.recipes.stack.EffectStack;
 
 import java.util.function.Predicate;
 

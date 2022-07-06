@@ -6,7 +6,6 @@ import net.minecraft.world.item.enchantment.Enchantments;
 import tt432.millennium.devonly.recipe.recipe.EnchantTestRecipe;
 import tt432.millennium.recipes.ingredients.ExItemIngredient;
 import tt432.millennium.recipes.ingredients.NbtIngredient;
-import tt432.millennium.utils.json.JsonUtil;
 
 import java.util.Arrays;
 

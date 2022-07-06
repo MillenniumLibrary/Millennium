@@ -15,7 +15,6 @@ import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
 import tt432.millennium.Millennium;
 import tt432.millennium.devonly.recipe.recipe.BioTransformationRecipe;
-import tt432.millennium.devonly.recipe.recipe.EnchantTestRecipe;
 import tt432.millennium.recipes.base.BaseRecipe;
 import tt432.millennium.recipes.base.BaseSerializer;
 
@@ -55,13 +54,7 @@ public class DevRegistry {
     public static final DeferredRegister<RecipeType<?>> RECIPE_TYPES =
             DeferredRegister.create(Registry.RECIPE_TYPE.key(), Millennium.MOD_ID);
 
-    public static final RegistryObject<RecipeSerializer<EnchantTestRecipe>> ENCHANT_TEST_RECIPE =
-            RECIPE_SERIALIZERS.register("enchant_test_recipe", () -> new BaseSerializer<>(EnchantTestRecipe.class));
-
     public static final RegistryObject<RecipeType<BioTransformationRecipe<?, ?>>> BIO = register("bio");
-
-    public static final RegistryObject<RecipeSerializer<?>> BIO_RECIPE =
-            register("bio", BioTransformationRecipe.class);
 
 
     private static <C extends Container, T extends BaseRecipe<C>> RegistryObject<RecipeSerializer<?>> register(String name, Class<T> clazz) {

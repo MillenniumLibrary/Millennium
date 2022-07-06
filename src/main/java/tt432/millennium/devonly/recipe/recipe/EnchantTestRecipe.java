@@ -6,10 +6,10 @@ import net.minecraft.world.inventory.CraftingContainer;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.CraftingRecipe;
 import net.minecraft.world.item.crafting.Ingredient;
-import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraftforge.common.util.RecipeMatcher;
-import tt432.millennium.devonly.DevRegistry;
+import tt432.millennium.Millennium;
 import tt432.millennium.recipes.base.BaseRecipe;
+import tt432.millennium.recipes.base.Recipe;
 import tt432.millennium.recipes.ingredients.ExItemIngredient;
 
 import java.util.ArrayList;
@@ -18,11 +18,11 @@ import java.util.List;
 /**
  * @author DustW
  **/
+@Recipe(Millennium.MOD_ID + ":enchant_test_recipe")
 public class EnchantTestRecipe extends BaseRecipe<CraftingContainer> implements CraftingRecipe {
-    @Expose
-    List<ExItemIngredient> ingredients;
-    @Expose
-    ItemStack result;
+
+    @Expose List<ExItemIngredient> ingredients;
+    @Expose ItemStack result;
 
     public EnchantTestRecipe(List<ExItemIngredient> ingredients, ItemStack result) {
         this.ingredients = ingredients;
@@ -46,10 +46,5 @@ public class EnchantTestRecipe extends BaseRecipe<CraftingContainer> implements 
     @Override
     public ItemStack getResultItem() {
         return result.copy();
-    }
-
-    @Override
-    public RecipeSerializer<?> getSerializer() {
-        return DevRegistry.ENCHANT_TEST_RECIPE.get();
     }
 }

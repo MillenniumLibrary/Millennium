@@ -15,7 +15,7 @@ import net.minecraftforge.common.crafting.AbstractIngredient;
 import net.minecraftforge.common.crafting.IIngredientSerializer;
 import net.minecraftforge.registries.ForgeRegistries;
 import org.jetbrains.annotations.Nullable;
-import tt432.millennium.utils.json.JsonUtil;
+import tt432.millennium.utils.json.JsonUtils;
 
 import java.util.Arrays;
 import java.util.Collection;
@@ -70,24 +70,24 @@ public class ExItemIngredient extends AbstractIngredient {
         return new IIngredientSerializer<ExItemIngredient>() {
             @Override
             public ExItemIngredient parse(FriendlyByteBuf buffer) {
-                return JsonUtil.INSTANCE.normal.fromJson(buffer.readUtf(), ExItemIngredient.class);
+                return JsonUtils.INSTANCE.normal.fromJson(buffer.readUtf(), ExItemIngredient.class);
             }
 
             @Override
             public ExItemIngredient parse(JsonObject json) {
-                return JsonUtil.INSTANCE.normal.fromJson(json, ExItemIngredient.class);
+                return JsonUtils.INSTANCE.normal.fromJson(json, ExItemIngredient.class);
             }
 
             @Override
             public void write(FriendlyByteBuf buffer, ExItemIngredient ingredient) {
-                buffer.writeUtf(JsonUtil.INSTANCE.normal.toJson(ingredient));
+                buffer.writeUtf(JsonUtils.INSTANCE.normal.toJson(ingredient));
             }
         };
     }
 
     @Override
     public JsonElement toJson() {
-        return JsonUtil.INSTANCE.normal.toJsonTree(this);
+        return JsonUtils.INSTANCE.normal.toJsonTree(this);
     }
 
     public static class SingleExItem implements Predicate<ItemStack>, Ingredient.Value {
@@ -176,7 +176,7 @@ public class ExItemIngredient extends AbstractIngredient {
 
         @Override
         public JsonObject serialize() {
-            return JsonUtil.INSTANCE.normal.toJsonTree(this).getAsJsonObject();
+            return JsonUtils.INSTANCE.normal.toJsonTree(this).getAsJsonObject();
         }
     }
 }

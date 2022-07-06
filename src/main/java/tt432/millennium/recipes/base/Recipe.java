@@ -1,7 +1,6 @@
 package tt432.millennium.recipes.base;
 
 
-import net.minecraft.world.item.crafting.RecipeManager;
 import tt432.millennium.recipes.impls.TemplateRecipe;
 
 import java.lang.annotation.ElementType;

@@ -4,11 +4,10 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.Container;
 import net.minecraft.world.item.Item;
 import tt432.millennium.recipes.base.BaseRecipe;
-import tt432.millennium.utils.json.JsonUtil;
+import tt432.millennium.utils.json.JsonUtils;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.function.Supplier;
 
 /**
  * @author DustW
@@ -32,6 +31,6 @@ public abstract class DataGenRecipes {
     }
 
     protected <C extends Container, TYPE extends BaseRecipe<C>> String baseRecipe(TYPE recipe) {
-        return JsonUtil.INSTANCE.pretty.toJson(recipe);
+        return JsonUtils.INSTANCE.pretty.toJson(recipe);
     }
 }
