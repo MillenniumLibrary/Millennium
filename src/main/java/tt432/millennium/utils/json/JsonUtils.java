@@ -5,7 +5,9 @@ import com.google.gson.GsonBuilder;
 import net.minecraft.core.NonNullList;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraftforge.items.ItemStackHandler;
 import tt432.millennium.utils.json.serializer.IngredientSerializer;
+import tt432.millennium.utils.json.serializer.ItemStackHandlerSerializer;
 import tt432.millennium.utils.json.serializer.ItemStackSerializer;
 import tt432.millennium.utils.json.serializer.NonNullListSerializer;
 
@@ -28,7 +30,10 @@ public enum JsonUtils {
                 // 注册自定义类型的序列化/反序列化器
                 .registerTypeAdapter(Ingredient.class, new IngredientSerializer())
                 .registerTypeAdapter(ItemStack.class, new ItemStackSerializer())
-                .registerTypeAdapter(NonNullList.class, new NonNullListSerializer());
+                .registerTypeAdapter(NonNullList.class, new NonNullListSerializer())
+                .registerTypeAdapter(ItemStackHandler.class, new ItemStackHandlerSerializer());
+                //   附带子类
+                //   registerTypeHierarchyAdapter
 
         // 无视 @Expose 注解的 Gson 实例
         noExpose = builder.create();
