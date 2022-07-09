@@ -1,16 +1,11 @@
 package tt432.millennium.utils.json.serializer;
 
-import com.google.gson.JsonDeserializationContext;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonParseException;
-import com.google.gson.JsonSerializationContext;
+import com.google.gson.*;
 import net.minecraft.core.NonNullList;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.items.ItemStackHandler;
 
 import java.lang.reflect.Type;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * @author DustW
@@ -19,17 +14,24 @@ public class ItemStackHandlerSerializer implements BaseSerializer<ItemStackHandl
 
     @Override
     public ItemStackHandler deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
-        return new ItemStackHandler(context.deserialize(json, NonNullList.class));
+        JsonArray array = json.getAsJsonArray();
+        ItemStack[] list = new ItemStack[array.size()];
+
+        for (int i = 0; i < array.size(); i++) {
+            list[i] = context.deserialize(array.get(i).getAsJsonObject(), ItemStack.class);
+        }
+
+        return new ItemStackHandler(NonNullList.of(ItemStack.EMPTY, list));
     }
 
     @Override
     public JsonElement serialize(ItemStackHandler src, Type typeOfSrc, JsonSerializationContext context) {
-        List<ItemStack> itemList = new ArrayList<>();
+        JsonArray itemList = new JsonArray();
 
         for (int i = 0; i < src.getSlots(); i++) {
-            itemList.add(src.getStackInSlot(i));
+            itemList.add(context.serialize(src.getStackInSlot(i)));
         }
 
-        return context.serialize(itemList);
+        return itemList;
     }
 }

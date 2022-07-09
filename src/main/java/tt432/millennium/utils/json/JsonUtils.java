@@ -3,13 +3,11 @@ package tt432.millennium.utils.json;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import net.minecraft.core.NonNullList;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraftforge.items.ItemStackHandler;
-import tt432.millennium.utils.json.serializer.IngredientSerializer;
-import tt432.millennium.utils.json.serializer.ItemStackHandlerSerializer;
-import tt432.millennium.utils.json.serializer.ItemStackSerializer;
-import tt432.millennium.utils.json.serializer.NonNullListSerializer;
+import tt432.millennium.utils.json.serializer.*;
 
 /**
  * @author DustW
@@ -31,7 +29,8 @@ public enum JsonUtils {
                 .registerTypeAdapter(Ingredient.class, new IngredientSerializer())
                 .registerTypeAdapter(ItemStack.class, new ItemStackSerializer())
                 .registerTypeAdapter(NonNullList.class, new NonNullListSerializer())
-                .registerTypeAdapter(ItemStackHandler.class, new ItemStackHandlerSerializer());
+                .registerTypeAdapter(ItemStackHandler.class, new ItemStackHandlerSerializer())
+                .registerTypeAdapter(ResourceLocation.class, new ResourceLocationSerializer());
                 //   附带子类
                 //   registerTypeHierarchyAdapter
 
