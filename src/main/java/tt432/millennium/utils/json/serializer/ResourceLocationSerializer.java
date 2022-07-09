@@ -11,7 +11,7 @@ import java.lang.reflect.Type;
 public class ResourceLocationSerializer implements BaseSerializer<ResourceLocation> {
     @Override
     public ResourceLocation deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
-        return new ResourceLocation(json.getAsString());
+        return ResourceLocation.tryParse(json.getAsString());
     }
 
     @Override
