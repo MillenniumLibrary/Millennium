@@ -1,4 +1,4 @@
-package tt432.millennium.devonly.recipe.recipe;
+package tt432.millennium.devonly.common.recipe.recipe;
 
 import com.google.gson.annotations.Expose;
 import net.minecraft.core.NonNullList;
@@ -18,7 +18,7 @@ import java.util.List;
 /**
  * @author DustW
  **/
-@Recipe(Millennium.MOD_ID + ":enchant_test_recipe")
+@Recipe(Millennium.ID + ":enchant_test_recipe")
 public class EnchantTestRecipe extends BaseRecipe<CraftingContainer> implements CraftingRecipe {
 
     @Expose List<ExItemIngredient> ingredients;

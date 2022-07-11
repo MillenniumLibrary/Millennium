@@ -7,12 +7,12 @@ import tt432.millennium.devonly.DevRegistry;
 /**
  * @author DustW
  */
-@Mod(Millennium.MOD_ID)
+@Mod(Millennium.ID)
 public class Millennium {
-    public static final String MOD_ID = "millennium";
+    public static final String ID = "millennium";
 
     /** 用来控制某些东西只在开发环境出现 */
-    public static final boolean DEV_MODE = true;
+    public static final boolean DEV_MODE = false;
 
     public static boolean MC_GLTF_LOAD;
 

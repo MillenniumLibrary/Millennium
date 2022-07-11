@@ -15,7 +15,7 @@ import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
 import net.minecraft.resources.ResourceLocation;
 import org.lwjgl.opengl.*;
-import tt432.millennium.devonly.ModelBlockEntity;
+import tt432.millennium.devonly.common.base.ModelBlockEntity;
 
 /**
  * @author DustW

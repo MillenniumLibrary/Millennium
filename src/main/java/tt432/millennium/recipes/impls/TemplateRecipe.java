@@ -19,7 +19,7 @@ import java.util.List;
  * 配方模板类，默认只会序列化 / 反序列化 @Expose 注解标注的字段
  * 使用 DataGenerator 时请注意 type 字段需要手动填充，否则 mc 的配方系统无法找到对应的解析器
  **/
-@Recipe(Millennium.MOD_ID + ":test")
+@Recipe(Millennium.ID + ":test")
 public class TemplateRecipe extends BaseRecipe<CraftingContainer> implements CraftingRecipe {
 
     @Expose NonNullList<Ingredient> inputs;

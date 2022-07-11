@@ -1,4 +1,4 @@
-package tt432.millennium.devonly;
+package tt432.millennium.devonly.common.base;
 
 import com.mojang.datafixers.types.Type;
 import net.minecraft.Util;

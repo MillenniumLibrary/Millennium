@@ -1,4 +1,4 @@
-package tt432.millennium.devonly.recipe.recipe;
+package tt432.millennium.devonly.common.recipe.recipe;
 
 import com.google.gson.annotations.Expose;
 import net.minecraft.nbt.CompoundTag;
@@ -25,7 +25,7 @@ import java.util.List;
  * @author DustW
  **/
 @Mod.EventBusSubscriber
-@Recipe(Millennium.MOD_ID + ":bio")
+@Recipe(Millennium.ID + ":bio")
 public class BioTransformationRecipe<I extends LivingEntity, O extends LivingEntity> extends BaseRecipe<Container> {
 
     @Expose private EntityIngredient<I> input;
@@ -38,7 +38,7 @@ public class BioTransformationRecipe<I extends LivingEntity, O extends LivingEnt
         this.effect = effect;
         this.output = output;
 
-        type = Millennium.MOD_ID + ":bio";
+        type = Millennium.ID + ":bio";
     }
 
     @SubscribeEvent

@@ -2,7 +2,7 @@ package tt432.millennium.devonly.datagen.recipes;
 
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.EntityType;
-import tt432.millennium.devonly.recipe.recipe.BioTransformationRecipe;
+import tt432.millennium.devonly.common.recipe.recipe.BioTransformationRecipe;
 import tt432.millennium.recipes.ingredients.EffectIngredient;
 import tt432.millennium.recipes.ingredients.EntityIngredient;
 import tt432.millennium.recipes.ingredients.IntRangeIngredient;

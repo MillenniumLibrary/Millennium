@@ -3,7 +3,7 @@ package tt432.millennium.devonly.datagen.recipes;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.enchantment.Enchantments;
-import tt432.millennium.devonly.recipe.recipe.EnchantTestRecipe;
+import tt432.millennium.devonly.common.recipe.recipe.EnchantTestRecipe;
 import tt432.millennium.recipes.ingredients.ExItemIngredient;
 import tt432.millennium.recipes.ingredients.NbtIngredient;
 

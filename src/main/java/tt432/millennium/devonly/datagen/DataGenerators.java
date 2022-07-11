@@ -11,7 +11,7 @@ import tt432.millennium.Millennium;
  **/
 @Mod.EventBusSubscriber(modid = DataGenerators.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class DataGenerators {
-    public static final String MOD_ID = Millennium.MOD_ID;
+    public static final String MOD_ID = Millennium.ID;
 
     @SubscribeEvent
     public static void gatherData(GatherDataEvent event) {

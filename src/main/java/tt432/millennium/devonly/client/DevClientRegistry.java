@@ -6,7 +6,7 @@ import net.minecraftforge.client.event.EntityRenderersEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import tt432.millennium.Millennium;
-import tt432.millennium.devonly.AllInOneObject;
+import tt432.millennium.devonly.common.base.AllInOneObject;
 import tt432.millennium.renderer.model.gltf.BaseModelBlockEntityRenderer;
 
 /**
