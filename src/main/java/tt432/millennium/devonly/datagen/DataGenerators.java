@@ -15,6 +15,10 @@ public class DataGenerators {
 
     @SubscribeEvent
     public static void gatherData(GatherDataEvent event) {
+        if (!Millennium.DEV_MODE) {
+            return;
+        }
+
         DataGenerator generator = event.getGenerator();
         if (event.includeServer()) {
             generator.addProvider(new TutRecipes(generator));
