@@ -6,6 +6,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.Container;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraftforge.registries.ForgeRegistryEntry;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import tt432.millennium.utils.json.JsonUtils;
 
@@ -24,20 +25,20 @@ public class BaseSerializer<C extends Container, RECIPE extends BaseRecipe<C>>
 
     @Nullable
     @Override
-    public RECIPE fromNetwork(ResourceLocation pRecipeId, FriendlyByteBuf pBuffer) {
+    public RECIPE fromNetwork(@NotNull ResourceLocation recipeId, FriendlyByteBuf pBuffer) {
         return JsonUtils.INSTANCE.normal.fromJson(pBuffer.readUtf(), recipeClass)
-                .setId(pRecipeId).setSerializer(this);
+                .setId(recipeId).setSerializer(this);
     }
 
     @Override
-    public void toNetwork(FriendlyByteBuf pBuffer, RECIPE pRecipe) {
-        pBuffer.writeUtf(JsonUtils.INSTANCE.normal.toJson(pRecipe));
+    public void toNetwork(FriendlyByteBuf pBuffer, @NotNull RECIPE recipe) {
+        pBuffer.writeUtf(JsonUtils.INSTANCE.normal.toJson(recipe));
     }
 
     @Override
-    public RECIPE fromJson(ResourceLocation pRecipeId, JsonObject pSerializedRecipe) {
-        return JsonUtils.INSTANCE.normal.fromJson(pSerializedRecipe, recipeClass)
-                .setId(pRecipeId).setSerializer(this);
+    public @NotNull RECIPE fromJson(@NotNull ResourceLocation recipeId, @NotNull JsonObject serializedRecipe) {
+        return JsonUtils.INSTANCE.normal.fromJson(serializedRecipe, recipeClass)
+                .setId(recipeId).setSerializer(this);
     }
 
     public JsonObject toJson(RECIPE pRecipe) {
