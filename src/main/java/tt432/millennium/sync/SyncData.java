@@ -29,8 +29,10 @@ public abstract class SyncData<V> implements NonNullSupplier<V> {
     }
 
     public void set(V value) {
-        this.value = value;
-        onChanged();
+        if (!this.value.equals(value)) {
+            this.value = value;
+            onChanged();
+        }
     }
 
     public void save(CompoundTag tag, boolean force) {
@@ -43,6 +45,7 @@ public abstract class SyncData<V> implements NonNullSupplier<V> {
     public void load(CompoundTag tag) {
         if (tag.contains(name)) {
             value = fromTag(tag.get(name));
+            onChanged();
         }
     }
 
