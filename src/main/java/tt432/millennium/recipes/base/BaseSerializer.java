@@ -23,25 +23,21 @@ public class BaseSerializer<C extends Container, RECIPE extends BaseRecipe<C>>
         this.recipeClass = recipeClass;
     }
 
-    @Nullable
-    @Override
-    public RECIPE fromNetwork(@NotNull ResourceLocation recipeId, FriendlyByteBuf pBuffer) {
-        return JsonUtils.INSTANCE.normal.fromJson(pBuffer.readUtf(), recipeClass)
-                .setId(recipeId).setSerializer(this);
-    }
-
-    @Override
-    public void toNetwork(FriendlyByteBuf pBuffer, @NotNull RECIPE recipe) {
-        pBuffer.writeUtf(JsonUtils.INSTANCE.normal.toJson(recipe));
-    }
-
     @Override
     public @NotNull RECIPE fromJson(@NotNull ResourceLocation recipeId, @NotNull JsonObject serializedRecipe) {
         return JsonUtils.INSTANCE.normal.fromJson(serializedRecipe, recipeClass)
                 .setId(recipeId).setSerializer(this);
     }
 
-    public JsonObject toJson(RECIPE pRecipe) {
-        return JsonUtils.INSTANCE.normal.toJsonTree(pRecipe).getAsJsonObject();
+    @Nullable
+    @Override
+    public RECIPE fromNetwork(@NotNull ResourceLocation recipeId, FriendlyByteBuf pBuffer) {
+        return JsonUtils.INSTANCE.normal.fromJson(JsonUtils.uncompress(pBuffer.readByteArray()), recipeClass)
+                .setId(recipeId).setSerializer(this);
+    }
+
+    @Override
+    public void toNetwork(FriendlyByteBuf pBuffer, @NotNull RECIPE recipe) {
+        pBuffer.writeBytes(JsonUtils.compress(JsonUtils.INSTANCE.normal.toJson(recipe)));
     }
 }
