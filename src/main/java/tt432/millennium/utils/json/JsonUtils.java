@@ -6,6 +6,7 @@ import net.minecraft.core.NonNullList;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.items.ItemStackHandler;
 import tt432.millennium.utils.json.serializer.*;
 
@@ -28,7 +29,7 @@ public enum JsonUtils {
 
         builder.setPrettyPrinting();
         prettyNoExpose = builder.create();
-        
+
         builder = builder();
 
         // 要求 *全部*字段都有 @Expose 注解的 Gson 实例
@@ -51,7 +52,8 @@ public enum JsonUtils {
                 .registerTypeAdapter(ItemStack.class, new ItemStackSerializer())
                 .registerTypeAdapter(NonNullList.class, new NonNullListSerializer())
                 .registerTypeAdapter(ItemStackHandler.class, new ItemStackHandlerSerializer())
-                .registerTypeAdapter(ResourceLocation.class, new ResourceLocationSerializer());
+                .registerTypeAdapter(ResourceLocation.class, new ResourceLocationSerializer())
+                .registerTypeAdapter(FluidStack.class, new FluidStackSerializer());
         //   附带子类
         //   registerTypeHierarchyAdapter
     }
