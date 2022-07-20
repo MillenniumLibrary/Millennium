@@ -18,9 +18,30 @@ public enum JsonUtils {
     public final Gson normal;
     public final Gson pretty;
     public final Gson noExpose;
+    public final Gson prettyNoExpose;
 
     JsonUtils() {
-        GsonBuilder builder = new GsonBuilder()
+        GsonBuilder builder = builder();
+
+        // 无视 @Expose 注解的 Gson 实例
+        noExpose = builder.create();
+
+        builder.setPrettyPrinting();
+        prettyNoExpose = builder.create();
+        
+        builder = builder();
+
+        // 要求 *全部*字段都有 @Expose 注解的 Gson 实例
+        builder.excludeFieldsWithoutExposeAnnotation();
+        normal = builder.create();
+
+        // 输出的字符串漂亮一点的 Gson 实例 -> 输出到 json 文件（例如合成表）的，好看
+        builder.setPrettyPrinting();
+        pretty = builder.create();
+    }
+
+    GsonBuilder builder() {
+        return new GsonBuilder()
                 // 关闭 html 转义
                 .disableHtmlEscaping()
                 // 开启复杂 Map 的序列化
@@ -31,18 +52,7 @@ public enum JsonUtils {
                 .registerTypeAdapter(NonNullList.class, new NonNullListSerializer())
                 .registerTypeAdapter(ItemStackHandler.class, new ItemStackHandlerSerializer())
                 .registerTypeAdapter(ResourceLocation.class, new ResourceLocationSerializer());
-                //   附带子类
-                //   registerTypeHierarchyAdapter
-
-        // 无视 @Expose 注解的 Gson 实例
-        noExpose = builder.create();
-
-        // 要求 *全部*字段都有 @Expose 注解的 Gson 实例
-        builder.excludeFieldsWithoutExposeAnnotation();
-        normal = builder.create();
-
-        // 输出的字符串漂亮一点的 Gson 实例 -> 输出到 json 文件（例如合成表）的，好看
-        builder.setPrettyPrinting();
-        pretty = builder.create();
+        //   附带子类
+        //   registerTypeHierarchyAdapter
     }
 }
