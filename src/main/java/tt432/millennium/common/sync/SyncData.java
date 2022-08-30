@@ -5,6 +5,8 @@ import net.minecraft.nbt.Tag;
 import net.minecraftforge.common.util.NonNullSupplier;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.Objects;
+
 /**
  * @author DustW
  **/
@@ -14,7 +16,7 @@ public abstract class SyncData<V> implements NonNullSupplier<V> {
     private final String name;
     public final boolean needSave;
 
-    public SyncData(String name, V defaultValue, boolean needSave) {
+    protected SyncData(String name, V defaultValue, boolean needSave) {
         this.value = defaultValue;
         this.name = name;
         this.needSave = needSave;
@@ -51,5 +53,20 @@ public abstract class SyncData<V> implements NonNullSupplier<V> {
 
     protected void onChanged() {
         this.changed = true;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        return obj == this || (obj instanceof SyncData sd && Objects.equals(sd.name, this.name));
+    }
+
+    @Override
+    public int hashCode() {
+        return name.hashCode();
+    }
+
+    @Override
+    public String toString() {
+        return "SyncData: {name: %s, value: %s}".formatted(name, value.toString());
     }
 }

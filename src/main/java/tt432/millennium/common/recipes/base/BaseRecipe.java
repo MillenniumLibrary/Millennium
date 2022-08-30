@@ -41,7 +41,7 @@ public abstract class BaseRecipe<C extends Container> implements Recipe<C>, Seri
     }
 
     @Override
-    public ItemStack assemble(Container pContainer) {
+    public ItemStack assemble(C pContainer) {
         return getResultItem();
     }
 

@@ -14,7 +14,7 @@ import java.lang.reflect.Type;
 public class IngredientSerializer implements BaseSerializer<Ingredient> {
     @Override
     public Ingredient deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
-        return Ingredient.fromJson(json);
+        return json.isJsonArray() ? Ingredient.EMPTY : Ingredient.fromJson(json);
     }
 
     @Override

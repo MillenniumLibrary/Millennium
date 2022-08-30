@@ -32,7 +32,7 @@ java {
 }
 
 minecraft {
-    mappings channel: 'parchment', version: '2022.07.17-1.18.2'
+    mappings channel: 'parchment', version: '2022.08.07-1.18.2'
 
     accessTransformer = file('src/main/resources/META-INF/accesstransformer.cfg')
 
@@ -117,34 +117,61 @@ project.ext.lwjglNatives = "natives-windows"
 configurations {
     shade
     implementation.extendsFrom shade
+    library
+    implementation.extendsFrom library
+}
+
+minecraft.runs.all {
+    lazyToken('minecraft_classpath') {
+        configurations.shade.copyRecursive().resolve().collect { it.absolutePath }.join(File.pathSeparator)
+        configurations.library.copyRecursive().resolve().collect { it.absolutePath }.join(File.pathSeparator)
+    }
 }
 
 repositories {
+    maven {
+        // location of the maven that hosts JEI files
+        name = "Progwml6 maven"
+        url = "https://dvs1.progwml6.com/files/maven/"
+    }
+    maven {
+        // Modern UI
+        name 'IzzelAliz Maven'
+        url 'https://maven.izzel.io/releases/'
+    }
+    maven {
+        // JEI, Mekanism
+        name 'ModMaven'
+        url 'https://modmaven.dev/'
+    }
     maven {
         url "https://cursemaven.com"
         content {
             includeGroup "curse.maven"
         }
     }
-    //mavenCentral()
-    maven {
-        // location of the maven that hosts JEI files
-        name = "Progwml6 maven"
-        url = "https://dvs1.progwml6.com/files/maven/"
-    }
 }
 
 dependencies {
-    minecraft 'net.minecraftforge:forge:1.18.2-40.1.68'
+    minecraft 'net.minecraftforge:forge:1.18.2-40.1.73'
+
+    annotationProcessor 'org.spongepowered:mixin:0.8.5:processor'
 
     shade "org.lwjgl:lwjgl-assimp:$lwjglVersion"
     runtimeOnly "org.lwjgl:lwjgl-assimp:$lwjglVersion:$lwjglNatives"
 
-    implementation fg.deobf("mezz.jei:jei-1.18.2-forge:10.1.0.208")
+    shade "org.lwjgl:lwjgl-nanovg:$lwjglVersion"
+    runtimeOnly "org.lwjgl:lwjgl-nanovg:$lwjglVersion:$lwjglNatives"
 
-    //implementation fg.deobf("curse.maven:modernui-352491:3765945")
+    shade('com.vladsch.flexmark:flexmark-all:0.64.0') {
+        exclude(group: "org.jetbrains", module: "annotations")
+    }
 
-    annotationProcessor 'org.spongepowered:mixin:0.8.5:processor'
+    compileOnly fg.deobf("mezz.jei:jei-${minecraft_version}-forge-api:${jei_version}")
+    implementation fg.deobf("mezz.jei:jei-${minecraft_version}-forge:${jei_version}")
+
+    library "icyllis.modernui:ModernUI-Core:${modernui_version}"
+    implementation fg.deobf("icyllis.modernui:ModernUI-Forge:${minecraft_version}-${modernui_version}")
 }
 
 // Example for how to get properties into the manifest for reading at runtime.
@@ -179,3 +206,13 @@ publishing {
 }
 
 jar.finalizedBy('reobfJar')
+
+// build {
+//     dependsOn 'jarJar'
+// }
+//
+// reobf.create('jarJar')
+
+tasks.withType(JavaCompile).configureEach {
+    options.encoding = 'UTF-8' // Use the UTF-8 charset for Java compilation
+}
