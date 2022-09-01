@@ -7,6 +7,7 @@ import net.minecraftforge.client.event.RegisterClientReloadListenersEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
+import tt432.millennium.dependencies.Dependencies;
 import tt432.millennium.auto.RegUILogic;
 import tt432.millennium.client.markdown.MarkdownManager;
 
@@ -18,11 +19,13 @@ import tt432.millennium.client.markdown.MarkdownManager;
 public class ClientSetupListener {
     @SubscribeEvent
     public static void onEvent(FMLClientSetupEvent event) {
-        RegUILogic.register();
+        if (Dependencies.MODERN_UI)
+            RegUILogic.register();
     }
 
     @SubscribeEvent
     public static void onEvent(RegisterClientReloadListenersEvent event) {
-        event.registerReloadListener(MarkdownManager.INSTANCE);
+        if (Dependencies.MODERN_UI)
+            event.registerReloadListener(MarkdownManager.INSTANCE);
     }
 }

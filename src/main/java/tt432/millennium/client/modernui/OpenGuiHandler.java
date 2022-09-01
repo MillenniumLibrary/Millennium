@@ -11,6 +11,19 @@ import tt432.millennium.auto.RegUILogic;
 import javax.annotation.Nonnull;
 
 /**
+ * 用法:
+ * @Mod.EventBusSubscriber(value = CLIENT, bus = MOD)
+ * public class Listener {
+ *     public static void openMenu(OpenMenuEvent event) {
+ *         OpenGuiHandler.openMenu(event)
+ *     }
+ * }
+ *
+ * 原因:
+ *  ModernUI 使用了 MOD 总线触发 OpenMenuEvent,
+ *  MOD 总线会根据 mod 产生变化,
+ *  所以只能够让使用者自行在 MOD 总线监听.
+ *
  * @author DustW
  **/
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
